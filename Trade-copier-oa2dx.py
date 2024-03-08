@@ -29,7 +29,7 @@ import oandapyV20
 import oandapyV20.endpoints.transactions as trans
 import oandapyV20.endpoints.accounts as accounts
 import oandapyV20.endpoints.positions as Positions
-from dxtrade_api_test import DXT
+from dxtrade_api import DXT
 
 # Global stuff
 
