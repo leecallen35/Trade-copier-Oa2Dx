@@ -1,9 +1,9 @@
 # Trade-copier-Oa2Dx
 Python program to copy trades from Oanda to DxTrade
 
-Oanda: utilizes the V20 streaming interface to receive notifications of opens & closes, uses API calls to get information (account balances, open positions).
+Oanda: utilizes the Oanda V20 streaming interface to receive notifications of opens & closes, uses API calls to get information (account balances, open positions).
        
-FTMO: utilizes the API to open & close trades, get account balance, get open positions.
+DxTrade: utilizes the DxTrade API to open & close trades, get account balance, get open positions.
 
 ## Important notes:
 * This is very new and raw and is currently exhibiting at least one known bug (see To Do section). It should be used only in demo/practice/paper trading.
