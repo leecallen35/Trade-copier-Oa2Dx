@@ -36,16 +36,17 @@ live_or_practice = 0
 if live_or_practice:
     # live
     oanda_env = "live"
-    oanda_account_id = "001-001-2056580-002"
-    oanda_access_token = "d8142adbe772214ad09365eb7778e7eb-53c1306b3aba7a79d1cce48413bbf267"
-    ftmo_account_id = "210002813"
-    ftmo_password = "8HVzL$@y"
+    oanda_account_id = "123-456-7890123-456"
+    oanda_access_token = "0123456789abcdef0123456789abcdef-0123456789abcdef0123456789abcdef"
+    ftmo_account_id = "123456789"
+    ftmo_password = "password"
 else:
     # demo
     oanda_env = "practice"
-    oanda_account_id = "101-001-8370721-003"
-    oanda_access_token = "bc0b8944bdd1a0916960240b5a776e54-cf880f7cc2202348ce566b2ed3c04e68"
-    ftmo_account_id = "1210008693"
-    ftmo_password = "*H9S52j936*^"
+    oanda_account_id = "123-456-7890123-456"
+    oanda_access_token = "0123456789abcdef0123456789abcdef-0123456789abcdef0123456789abcdef"
+    ftmo_account_id = "123456789"
+    ftmo_password = "*password"
+
 ```
 5. Run it in demo (practice) mode, test it extensively.
