@@ -233,8 +233,6 @@ def main():
 
         except trans.StreamTerminated as e:
             logging.error("the Oanda transaction stream terminated, restarting")
-        except trans.InvalidChunkLength as e:
-            logging.critical("InvalidChunkLength error encountered, restarting: %e", e)
         except Exception as e:
             logging.critical("Unexpected error encountered, restarting: %e", e)
 
