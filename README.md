@@ -15,6 +15,7 @@ DxTrade: utilizes the DxTrade API to open & close trades, get account balance, g
 * The time intervals in background_updates() are appropriate for day or swing trading, they may need to be adjusted for lower timeframes.
 
 ## To do:
+* The background thread should not be started in the while loop, it will have multiple instances
 * Having an occassional unexpected crash in this line, added more exception monitoring and logging
 ```
 for trand in r.response:
