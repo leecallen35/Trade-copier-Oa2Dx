@@ -154,6 +154,10 @@ def list_open_trades():
 def main():
     global open_trades
     
+    # start thread for background updates
+    x = threading.Thread(target=background_updates, args=(oanda_client, ftmo_conn), daemon=True)
+    x.start()
+    
     # outer loop: sometimes the trans stream crashes
     while True:
 
@@ -171,10 +175,6 @@ def main():
         # reconcile open positions between Oanda and FTMO    
         reconcile(oanda_client, ftmo_conn)
         list_open_trades()
-    
-        # start thread for background updates
-        x = threading.Thread(target=background_updates, args=(oanda_client, ftmo_conn), daemon=True)
-        x.start()
     
         try:
             for trand in r.response:
