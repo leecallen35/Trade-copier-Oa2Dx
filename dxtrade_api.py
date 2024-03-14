@@ -81,6 +81,31 @@ class DXT:
             logging.error("account balance query failed with status code: %s", response.status_code)
             return None
 
+    def get_quote(self, currpair):
+        url = self.base_url + "marketdata"
+        print(f"URL:{url}")
+        payload = json.dumps({
+            "account": "default:" + self.username,
+            "symbols": [ currpair.replace("_","") ],
+            "eventTypes": [ { 
+                "type": "Quote",
+                "format": "COMPACT"
+            } ]
+        })
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'DXAPI ' + self.token
+        }
+        response = self.s.request("POST", url, headers=headers, data=payload)
+        if response.status_code == 200:
+            # returns a dict named 'metrics' containing a list of one item, a dict
+            # return bid and ask prices
+            return response.json()['events'][0]['bid'], response.json()['events'][0]['ask']
+        else:
+            logging.error("get-quote query failed with status code: %s", response.status_code)
+            return None
+
     '''
     placeOrder is called to open a new order or close an existing order
     when opening:
@@ -166,6 +191,10 @@ if __name__ == "__main__":
     ftmo_conn.login()
     ftmo_conn.ping()
     print(f"FTMO balance:{ftmo_conn.account_balance()}")
+    
+    # get a quote
+    bid,ask = ftmo_conn.get_quote("EURUSD")
+    print(f"Quote for EURUSD - Bid:{bid}, Ask:{ask}")
     
     # create these 3 orders
     positions = {}
