@@ -162,7 +162,7 @@ def main():
     while True:
 
         # stop background thread if it's already running
-        if th is not None and th.isalive():
+        if th is not None and th.is_alive():
             th_flag = True
             th.join()
             
