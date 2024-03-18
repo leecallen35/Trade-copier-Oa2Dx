@@ -53,6 +53,7 @@ else:
 
 lock = threading.Lock()
 open_trades = {}
+th_flag = False
 
 logging.basicConfig(
     level=logging.INFO,
@@ -69,8 +70,8 @@ def background_updates( oanda_client, ftmo_conn ):
     last_ping = last_reconcile = datetime.now()
     connected = True
 
-    while True:
-        time.sleep(60)
+    while not th_flag:
+        time.sleep(5)
         # ping FTMO connection every 10 minutes to keep it alive
         if datetime.now() > last_ping + timedelta( minutes=10):
             connected = True
@@ -154,9 +155,17 @@ def list_open_trades():
 def main():
     global open_trades
     
+    # variables to track and signal thread
+    th = None
+    
     # outer loop: sometimes the trans stream crashes
     while True:
 
+        # stop background thread if it's already running
+        if th is not None and th.isalive():
+            th_flag = True
+            th.join()
+            
         # initialize FTMO / DxTrade connection - requests
         ftmo_conn = DXT(ftmo_account_id, ftmo_password)
         if not ftmo_conn.login():
@@ -172,13 +181,17 @@ def main():
         reconcile(oanda_client, ftmo_conn)
         list_open_trades()
     
-        # start thread for background updates
-        x = threading.Thread(target=background_updates, args=(oanda_client, ftmo_conn), daemon=True)
-        x.start()
+        # (re) start thread for background updates
+        th_flag = False
+        th = threading.Thread(target=background_updates, args=(oanda_client, ftmo_conn), daemon=True)
+        th.start()
     
         try:
             for trand in r.response:
+                if trand['type'] == "HEARTBEAT":
+                    continue
                 if trand['type'] != "ORDER_FILL":
+                    print(trand)
                     continue
                 if not ftmo_conn.ping():
                     logging.info("FTMO ping failed, re-connecting")
